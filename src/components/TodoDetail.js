@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios' 
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 
 class TodoDetail extends Component {
 
@@ -24,9 +24,17 @@ class TodoDetail extends Component {
 
 
     render() {
-        const {name, description, _id} = this.state.todo
+        const {name, description, _id, image} = this.state.todo
+        const {loggedInUser} = this.props;
+
+        if (!loggedInUser){
+            return <Redirect to={"/sign-in"} />
+        }
+
         return (
             <div>
+                <img src={image} style={{width:200}} alt={name} />
+
                 <div>Name: {name}</div>
                 <div>Detail: {description}</div>
                 <Link to={`/todo/${_id}/edit`} ><button>Edit</button></Link>
